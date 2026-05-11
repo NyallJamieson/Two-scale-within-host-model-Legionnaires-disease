@@ -249,6 +249,17 @@ set.seed(1)
 sample_traj <- sample(unique(results_long$trajectory), 250)
 results_sub <- results_long[results_long$trajectory %in% sample_traj, ]
 
+t_curve <- seq(0, 100, by = 0.1)
+
+growth_curve <- data.frame(
+  time = t_curve,
+  mean = g(t_curve, c(C_hat, w_hat)),
+  upper = g(t_curve, c(C_hat + 1.96 * C_se, w_hat + 1.96 * w_se)),
+  lower = g(t_curve, c(C_hat - 1.96 * C_se, w_hat - 1.96 * w_se))
+)
+
+growth_curve <- growth_curve[complete.cases(growth_curve), ]
+
 # -----------------------------
 # Plot spaghetti trajectories + fitted deterministic curve + data
 # -----------------------------
@@ -263,27 +274,30 @@ Fig2 <- ggplot() +
   geom_ribbon(
     data = growth_curve,
     aes(x = time, ymin = lower, ymax = upper),
-    alpha = 0.20
+    alpha = 0.20,
+    inherit.aes = FALSE
   ) +
   geom_line(
     data = growth_curve,
     aes(x = time, y = mean),
     color = "black",
-    linewidth = 1.2
+    linewidth = 1.2,
+    inherit.aes = FALSE
   ) +
   geom_point(
     data = growth_data,
     aes(x = time, y = L),
-    size = 3
+    size = 3,
+    inherit.aes = FALSE
   ) +
   labs(
     x = "Time post-infection (hours)",
     y = "Intracellular Legionella population"
   ) +
-  coord_cartesian(xlim = c(0, 100), ylim = c(0, 250)) +
+  scale_x_continuous(limits = c(0, 100), expand = c(0, 0)) +
+  scale_y_continuous(limits = c(0, 250), expand = c(0, 0)) +
   theme_minimal(base_size = 22) +
   theme(
-    plot.title = element_text(size = 24, hjust = 0.5),
     axis.title = element_text(size = 20),
     axis.text = element_text(size = 16)
   )
