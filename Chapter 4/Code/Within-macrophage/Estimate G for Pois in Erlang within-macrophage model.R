@@ -36,7 +36,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
 # Produce plot
-plot(size,rupture_dist,xlab = "Rupture size (number of Legionella)",ylab="Probability mass",main="Rupture size distribution", col = cols[1], lwd=2,type="l")
+plot(size,rupture_dist,xlab = "Rupture size (number of Legionella)",ylab="Probability mass", col = cols[1], lwd=2,type="l")
 lines(c(59.58144, 59.58144), c(0, 1), col = cols[2], lwd = 2)
 lines(seq(0, 300, by = 1), dpois(seq(0, 300, by = 1), lambda = 59.58144), col = cols[3], lwd = 2)
 lines(P4_G_intermediate, col = cols[4], lwd = 2)

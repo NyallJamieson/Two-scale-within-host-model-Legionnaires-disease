@@ -54,20 +54,20 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(dose_M,response_M,main="Dose-response for Legionnaires' disease",xlab="Deposited dose (number of Legionella)",ylab="Probability of symptom onset",lwd=2,ylim=c(0,1),xlim=c(0,100))
-lines(seq(0, 500, by = 1), R1, col=2, lwd=2)
-lines(seq(0, 500, by = 1), R2, col=3, lwd=2)
-lines(seq(0, 500, by = 1), R3, col=4, lwd=2)
-lines(seq(0, 500, by = 1), R4, col=5, lwd=2)
-lines(seq(0, 500, by = 1), R5, col=6, lwd=2)
-lines(seq(0, 500, by = 1), R6, col=7, lwd=2)
+plot(dose_M,response_M,xlab="Deposited dose (number of Legionella)",ylab="Probability of symptom onset",lwd=2,ylim=c(0,1),xlim=c(0,100))
+lines(seq(0, 500, by = 1), R1, col=2, lwd=2, lty = 1)
+lines(seq(0, 500, by = 1), R2, col=3, lwd=2, lty = 2)
+lines(seq(0, 500, by = 1), R3, col=4, lwd=2, lty = 3)
+lines(seq(0, 500, by = 1), R4, col=5, lwd=2, lty = 4)
+lines(seq(0, 500, by = 1), R5, col=6, lwd=2, lty = 5)
+lines(seq(0, 500, by = 1), R6, col=7, lwd=2, lty = 6)
 lines(doses,1-exp(-beta_hat*doses),lwd=2,col="black")
 lines(doses,1-exp(-ci_upper*doses),col="black",lty=2)
 lines(doses,1-exp(-ci_lower*doses),col="black",lty=2)
 for (i in 1:4){
   arrows(x0=dose_M[i], y0=point_lower[i], x1=dose_M[i], y1=point_upper[i], length=0.05, angle=90, code=3)
 }
-legend("bottomright",legend=c("Erlang intermediate", "Erlang Poisson", "Erlang constant", "Burr intermediate", "Burr Poisson", "Burr constant","Binomial likelihood \n to experimental results"), col = c(2, 3, 4, 5, 6, 7, 1), lty = c(1, 1, 1, 1, 1, 1, 1), lwd = c(2, 2, 1, 2, 2, 2), bty = "n")
+legend("bottomright",legend=c("Erlang intermediate", "Erlang Poisson", "Erlang constant", "Burr intermediate", "Burr Poisson", "Burr constant","Binomial likelihood \n to experimental results"), col = c(2, 3, 4, 5, 6, 7, 1), lty = c(1, 2, 3, 4, 5, 6, 1), lwd = c(2, 2, 1, 2, 2, 2), bty = "n")
 
 # Add minor ticks (nx, ny = number of intervals between major ticks)
 minor.tick(nx = 2, ny = 2, tick.ratio = 0.5)
@@ -465,7 +465,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_1, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(50, 160), xlab = "Deposited dose (number of Legionella)", ylab = "Time (hours)", main = "Mean incubation period")
+plot(M1_1, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(50, 160), xlab = "Deposited dose (number of Legionella)", ylab = "Mean incubation period (hours)")
 lines(M2_1, col = cb_palette[2], lwd = 2, lty = 2)
 lines(M3_1, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_1, col = cb_palette[4], lwd = 2, lty = 1)
@@ -492,7 +492,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_2^0.5, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(0, 30), xlab = "Deposited dose", ylab = "Standard deviation", main = "Standard deviation")
+plot(M1_2^0.5, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(0, 30), xlab = "Deposited dose", ylab = "Standard deviation")
 lines(M2_2^0.5, col = cb_palette[2], lwd = 2, lty = 2)
 lines(M3_2^0.5, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_2^0.5, col = cb_palette[4], lwd = 2, lty = 1)
@@ -516,7 +516,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_3, col = cb_palette[1], type = "l", lwd = 2, lty = 2, ylim = c(0, 6), xlab = "Deposited dose (number of Legionella)", ylab = "Skewness", main = "Skewness")
+plot(M1_3, col = cb_palette[1], type = "l", lwd = 2, lty = 2, ylim = c(0, 6), xlab = "Deposited dose (number of Legionella)", ylab = "Skewness")
 lines(M2_3, col = cb_palette[2], lwd = 2, lty = 2)
 # lines(M3_3, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_3, col = cb_palette[4], lwd = 2, lty = 1)
@@ -540,7 +540,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_4^0.5, col = cb_palette[1], type = "l", lwd = 2, lty = 2, ylim = c(0, 10), xlab = "Deposited dose (number of Legionella)", ylab = "Kurtosis", main = "Kurtosis")
+plot(M1_4^0.5, col = cb_palette[1], type = "l", lwd = 2, lty = 2, ylim = c(0, 10), xlab = "Deposited dose (number of Legionella)", ylab = "Kurtosis")
 lines(M2_4^0.5, col = cb_palette[2], lwd = 2, lty = 2)
 # lines(M3_4^0.5, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_4^0.5, col = cb_palette[4], lwd = 2, lty = 1)
@@ -564,7 +564,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_5, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(50, 160), xlab = "Deposited dose (number of Legionella)", ylab = "Time (hours)", main = "Median incubation period")
+plot(M1_5, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(50, 160), xlab = "Deposited dose (number of Legionella)", ylab = "Median incubation period (hours)")
 lines(M2_5, col = cb_palette[2], lwd = 2, lty = 2)
 lines(M3_5, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_5, col = cb_palette[4], lwd = 2, lty = 1)
@@ -588,7 +588,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(M1_6, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(0, 50), xlab = "Deposited dose (number of Legionella)", ylab = "Time (hours)", main = "Interquartile range")
+plot(M1_6, col = cb_palette[1], type = "l", lty = 2, lwd = 2, ylim = c(0, 50), xlab = "Deposited dose (number of Legionella)", ylab = "Interquartile range (hours)")
 lines(M2_6, col = cb_palette[2], lwd = 2, lty = 2)
 lines(M3_6, col = cb_palette[3], lwd = 2, lty = 2)
 lines(m1_6, col = cb_palette[4], lwd = 2, lty = 1)

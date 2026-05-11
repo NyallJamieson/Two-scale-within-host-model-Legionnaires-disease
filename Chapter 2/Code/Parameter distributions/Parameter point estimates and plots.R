@@ -85,7 +85,7 @@ par(cex.lab = 2,   # Axis labels font size (1.5x default size)
     cex.axis = 1.2,  # Axis tick label font size
     mar = c(5, 5, 4, 2) + 0.1)  # Adjust margins (optional for better space)
 
-plot(t2,death_prop,xlab="Time in hours",ylab="Percentage of macrophages dead",main="Infected macrophages rupture")
+plot(t2,death_prop,xlab="Time in hours [t]",ylab="Percentage of macrophages dead [g(t)]")
 lines(seq(0,72,by=1),death_prop[72]*pexp(seq(0,72,by=1),rate=coef(model_fit_exp)),lwd=2,lty=1)
 lines(seq(0,72,by=1),death_prop[72]*pgamma(seq(0,72,by=1),shape=coef(model_fit_gamma)[1],rate=coef(model_fit_gamma)[2]),lwd=2,col="green",lty=2)
 lines(seq(0,72,by=1),death_prop[72]*pburrNEW(seq(0,72,by=1),a=coef(model_fit)[1],b=coef(model_fit)[2],T=coef(model_fit)[3]),lwd=2,col="red",lty=3)

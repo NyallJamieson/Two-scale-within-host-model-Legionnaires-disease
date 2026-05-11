@@ -118,8 +118,7 @@ plot(
   xlim = c(0, 100), 
   ylim = range(results_long$L, na.rm = TRUE),
   xlab = "Time post-infection (hours)", 
-  ylab = "Intracellular Legionella population", 
-  main = "Spaghetti plot of within-macrophage model"
+  ylab = "Intracellular Legionella population"
 )
 
 # Make spaces smaller
@@ -193,8 +192,7 @@ ggplot(results_sub, aes(x = time, y = L, group = trajectory)) +
   geom_line(alpha = 0.05, color = "firebrick", linewidth = 0.3) +
   labs(
     x = "Time post-infection (hours)",
-    y = "Intracellular Legionella population",
-    title = "Spaghetti plot of within-macrophage model"
+    y = "Intracellular Legionella population"
   ) +
   coord_cartesian(xlim = c(0, 100)) +  # Limit x-axis to 0–100
   theme_minimal(base_size = 22) +
@@ -207,6 +205,94 @@ ggplot(results_sub, aes(x = time, y = L, group = trajectory)) +
 # Save at 8x6 inches, 600 DPI — matches your base R PNG
 ggsave(
   filename = "SpaghettiPlot.png",
+  width = 8,
+  height = 6,
+  units = "in",
+  dpi = 600
+)
+
+library(ggplot2)
+
+# -----------------------------
+# Experimental intracellular count data
+# -----------------------------
+ind <- c(1, 24, 48, 72)
+dep <- c(1, 59.41733, 161.69467, 189.78458)
+growth_data <- data.frame(time = ind, L = dep)
+
+# -----------------------------
+# Deterministic logistic-growth curve from previous paper
+# -----------------------------
+g <- function(t, pars) {
+  (t >= 0 & t <= 1) * 1 +
+    (t > 1) * pars[1] / (1 + (pars[1] - 1) * exp(-pars[2] * (t - 1)))
+}
+
+t_curve <- seq(1, 100, by = 0.1)
+
+C_hat <- 177.9530
+w_hat <- 0.19242
+C_se  <- 9.08241
+w_se  <- 0.01391
+
+growth_curve <- data.frame(
+  time = t_curve,
+  mean = g(t_curve, c(C_hat, w_hat)),
+  upper = g(t_curve, c(C_hat + 1.96 * C_se, w_hat + 1.96 * w_se)),
+  lower = g(t_curve, c(C_hat - 1.96 * C_se, w_hat - 1.96 * w_se))
+)
+
+# -----------------------------
+# Sample trajectories from your simulated SLBD results
+# -----------------------------
+set.seed(1)
+sample_traj <- sample(unique(results_long$trajectory), 250)
+results_sub <- results_long[results_long$trajectory %in% sample_traj, ]
+
+# -----------------------------
+# Plot spaghetti trajectories + fitted deterministic curve + data
+# -----------------------------
+Fig2 <- ggplot() +
+  geom_line(
+    data = results_sub,
+    aes(x = time, y = L, group = trajectory),
+    alpha = 0.05,
+    color = "firebrick",
+    linewidth = 0.3
+  ) +
+  geom_ribbon(
+    data = growth_curve,
+    aes(x = time, ymin = lower, ymax = upper),
+    alpha = 0.20
+  ) +
+  geom_line(
+    data = growth_curve,
+    aes(x = time, y = mean),
+    color = "black",
+    linewidth = 1.2
+  ) +
+  geom_point(
+    data = growth_data,
+    aes(x = time, y = L),
+    size = 3
+  ) +
+  labs(
+    x = "Time post-infection (hours)",
+    y = "Intracellular Legionella population"
+  ) +
+  coord_cartesian(xlim = c(0, 100), ylim = c(0, 250)) +
+  theme_minimal(base_size = 22) +
+  theme(
+    plot.title = element_text(size = 24, hjust = 0.5),
+    axis.title = element_text(size = 20),
+    axis.text = element_text(size = 16)
+  )
+
+Fig2
+
+ggsave(
+  filename = "SpaghettiPlot_with_data.png",
+  plot = Fig2,
   width = 8,
   height = 6,
   units = "in",
